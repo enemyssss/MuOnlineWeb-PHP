@@ -200,3 +200,50 @@
 {
     background:rgba(108,189,255,1);
 }
+
+/* Nav Account Panel */
+
+.nav-container{
+    width:100%;
+    margin:0 auto;
+    box-shadow: 0 1px 1px 1px black;
+    transition: all 0.3s linear;
+}
+.nav{
+    list-style-type:none;
+    margin:0;
+    padding:0;
+}
+.nav li{
+    height:50px;
+    position: static;
+    background: linear-gradient(#292929, #242424);
+}
+.nav a {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    text-decoration:none;
+    display:block;
+    height:100%;
+    width:100%;
+    line-height:50px;
+    color:#bbb;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding-left:25%;
+    border-left:5px solid transparent;
+    letter-spacing:1px;
+    transition: all 0.3s linear;
+}
+
+.nav li:hover a{
+    color: #eee;
+    border-left: 5px solid #FCFCFC;
+    background-color: #1B1B1B;
+}
+.icon{
+    position:absolute;
+    left:20px;
+    font-size: 1.5em;
+    transition: all 0.3s linear;
+}
+

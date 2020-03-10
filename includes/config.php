@@ -1,7 +1,6 @@
 <?php
-
 // MSSQL Connection
-$serverName = "WBSBASE"; //serverName\instanceName
+$serverName = "enemY"; //serverName\instanceName
 $connectionInfo = array("Database"=>"MuOnline", "UID"=>"sa", "PWD"=>"123456");
 
 //Server Info

@@ -93,3 +93,15 @@ $(document).ready(function(){
 			displaytime();
 		}, 1000);
 });
+
+
+function showDiv(select){
+	var uid = select.options[select.selectedIndex].getAttribute('data');
+	if(uid == "DL" ){
+		document.getElementById('commandDiv').style.display = "block";
+	}
+	else{
+		document.getElementById('commandDiv').style.display = "none";
+	}
+}
+

@@ -5,19 +5,34 @@ if(isset($_SESSION['username'])){
 <div id="menu">
      <h2><span class="fontawesome-lock"></span>ACCOUNT PANEL</h2>
      <fieldset>
-     <div class="main">
-<nav class="vertical-nav">
-<ul>
-<li><a onclick=\'web("modules/user/accPanel/accPanel.php")\'>Account Panel</a></li>
-<li><a onclick=\'web("modules/user/charPanel/charPanel.php")\'>Character Panel</a></li>
-<li><a href="#">Buy Credits</a></li>
-<li><a href="#">Market Place</a></li>
-</ul>  
-</nav>
- <input type="button" class="submit" onclick ="functions(\'logout\')" value="Logout"><br>
-    </div>
-          <div align="center" id="logouts"><br></div>
-         
+     <div class="nav-container">
+  <ul class="nav">
+    <li>
+      <a onclick =\'web("modules/user/accPanel/accPanel.php")\'>
+        <span class="icon-account"></span>
+        <span class="text">Account Settings</span>
+      </a>
+    </li>
+    <li>
+      <a onclick =\'web("modules/user/charPanel/charPanel.php")\'>
+        <span class="icon"></span>
+        <span class="text">Character Panel</span>
+      </a>
+      </li>
+    <li>
+      <a href="#">
+        <span class="icon"></span>
+        <span class="text">Buy Credits</span>
+      </a>
+      </li>
+    <li>
+      <a href="#">
+        <span class="icon"></span>
+        <span class="text">Market Place</span>    
+      </a>
+    </li>
+  </ul>
+</div>
       </fieldset>      
   </div>
           </form> ';
