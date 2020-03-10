@@ -1,0 +1,305 @@
+/* Body,Content,Wrapper,Header,Sidebars and Footer Setup */
+*,:after,:before{box-sizing:border-box}html{font-size:100%}
+body{margin:0;padding:20px;font-family:Arial,Helvetica,sans-serif;font-size:1rem;color:#fff;background-image: url(../background.gif);background-repeat: repeat;}
+body,a {
+cursor: url(../MU.cur), auto;
+}
+a:hover {
+cursor: url(../MU2.cur), auto;
+}
+.wrapper{margin:auto;}
+aside,footer,header,main,section{display:block;margin:0;padding:1.25rem;border:1px solid #f5f5f0;color:#fff}
+.header{
+ padding:0 0 15% 0;
+ background-image: url(../bg.jpg);
+ background-size:cover;
+}
+.hero{background:#d22b1f}@media screen and (min-width:640px){.flex-container{display:flex}}
+.content{flex:2;background:#333}
+.sidebar{flex:1;background:#333}
+.footer,.sidebar{border:1px solid #f5f5f0}
+.footer{background:#616161}
+
+
+/* Text,H1,H2 and etc. style */
+h1{
+  text-align: center;
+  padding:10px 0px 0px 0px;
+  font:25px Oswald;
+  color:white;
+  text-transform:uppercase;
+  text-shadow:#000 0px 1px 5px;
+  margin:0px;
+}
+
+
+h2{
+  text-align: center;
+  padding:10px 0px 0px 0px;
+  font:20px Oswald;
+  color:white;
+  text-transform:uppercase;
+  text-shadow:#000 0px 1px 5px;
+  margin:0px;
+}
+
+p{
+  font:13px Open Sans;
+  color:white;
+  text-shadow:#000 0px 1px 5px;
+  margin-bottom:30px;
+}
+
+
+/* Menu Background + Cover */
+#menu{
+  width: 100%; 
+  margin: auto;
+  overflow: auto;
+}
+
+#menu h1 {
+	background: #24868d;
+	border-radius: 20px 20px 0 0;
+	color: #fff;
+	font-size: 24px;
+        margin:0 0.4% 0 0.4%
+}
+
+#menu h1 span[class*="fontawesome-"] {
+	margin-right: 5%;
+}
+
+#menu h2 {
+	background: #24868d;
+	border-radius: 20px 20px 0 0;
+	color: #fff;
+	font-size: 20px;
+	margin:0 0.5% 0 0.5%;  
+}
+
+#menu h2 span[class*="fontawesome-"] {
+	margin-right: 5%;
+}
+
+#menu fieldset {
+  align-content: center;   
+  padding: 3%;
+  border-radius: 0 0 20px 20px;
+  outline-style: none;
+  box-shadow: none;
+  border-color:transparent;
+  background:rgba(0,0,0,0.2);
+  border:1px solid rgba(0,0,0,1);
+  margin-bottom:10px;
+  color: whitesmoke;
+  text-shadow:#000 0px 1px 5px; 
+}
+/* Tables */
+.menu-table{
+    width: 100%; 
+    border-collapse: collapse; 
+    border-spacing: 2px;
+    border-color:transparent;
+    background:rgba(0,0,0,0.2);
+}
+.menu-table td,th{
+  padding:1%;
+  border-color:transparent;
+  background:rgba(0,0,0,0.2);
+  border:1px solid rgba(0,0,0,1);
+  color: white;
+  text-align: center;
+}
+/*Input + Class Button & Form*/
+.ranking{
+  width:80%;
+  margin: auto;
+}
+.form{
+  width: 100%;
+  
+}
+input{
+  width: 80%;
+  padding:4% 0 4% 0;
+  margin-left:5%;
+  border-radius: 5px;
+  outline-style: none;
+  box-shadow: none;
+  border-color:transparent;
+  background:rgba(0,0,0,0.2);
+  border:1px solid rgba(0,0,0,1);
+  margin:1%;
+  color: whitesmoke;
+  text-shadow:#000 0px 1px 5px;
+}
+@-webkit-keyframes autofill {
+to {
+color: whitesmoke;
+background: rgba(0,0,0,0.2);
+}
+}
+input:-webkit-autofill {
+-webkit-animation-name: autofill;
+-webkit-animation-fill-mode: both;
+}
+
+input[type="button"]{
+  width:50%;
+  padding:5%;
+  border-radius:5px;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#28D2DE), to(#1A878F));
+  background-image: -webkit-linear-gradient(#28D2DE 0%, #1A878F 100%);
+  background-image: -moz-linear-gradient(#28D2DE 0%, #1A878F 100%);
+  background-image: -o-linear-gradient(#28D2DE 0%, #1A878F 100%);
+  background-image: linear-gradient(#28D2DE 0%, #1A878F 100%);
+  font:14px Oswald;
+  color:#FFF;
+  text-transform:uppercase;
+  text-shadow:#000 0px 1px 5px;
+  border:1px solid #000;
+  opacity:0.7;
+  -webkit-box-shadow: 0 8px 6px -6px rgba(0,0,0,0.7);
+  -moz-box-shadow: 0 8px 6px -6px rgba(0,0,0,0.7);
+   box-shadow: 0 8px 6px -6px rgba(0,0,0,0.7);
+   border-top:1px solid rgba(255,255,255,0.8)!important;
+  -webkit-box-reflect: below 0px -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(255,255,255,0.2)));
+}
+
+input:focus{
+
+  outline:none;
+}
+
+input[type="button"]:hover{
+  opacity:1;
+    cursor: url(../MU2.cur), auto;
+}
+
+
+input[type="text"],input[type="email"],input[type="password"] {
+    padding-left:2%;
+}
+
+.optimize{
+  position:fixed;
+  right:3%;
+  top:0px;
+}
+
+.main{
+   text-align: center;
+
+}
+
+
+/* Button Style */
+.button{
+    padding:2%;
+    margin: 5px 0 5px 0;
+    background:#24868d;
+    color:white;
+    border:1px solid #000;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.button:hover{
+  background:#24851d;
+  cursor:pointer;
+  text-decoration: none;
+    cursor: url(../MU2.cur), auto;
+}
+
+/* Text Area */
+
+textarea{
+    color:white;
+    width:90%;
+    background:#616161;
+    border:1px solid #000;
+}
+
+textarea::placeholder{
+    color:white;
+}
+
+/* Google Pie Chart Style */
+
+#piechart_wrap {
+    position: relative;
+    padding-bottom: 65%;
+    height: 0;
+    overflow: auto;
+}
+
+#piechart_char {
+    position: absolute;
+    width:90%;
+    height:65%;
+    margin: auto;
+}
+
+#piechart_maps {
+    position: absolute;
+    width:90%;
+    height:65%;
+}
+
+/* Select Options */
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    appearance: none;
+    outline: 0;
+    box-shadow: none;
+    border: 0 !important;
+    background: #2c3e50;
+    background-image: none;
+}
+/* Remove IE arrow */
+select::-ms-expand {
+    display: none;
+}
+/* Custom Select */
+.select {
+    position: relative;
+    display: flex;
+    width: 20em;
+    height: 3em;
+    line-height: 3;
+    background: #2c3e50;
+    overflow: hidden;
+    border-radius: .25em;
+    margin: auto;
+}
+select {
+    flex: 1;
+    padding: 0 .5em;
+    color: #fff;
+    cursor: url(../MU2.cur), auto;
+}
+/* Arrow */
+.select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 0 1em;
+    background: #34495e;
+    cursor: pointer;
+    pointer-events: none;
+    -webkit-transition: .25s all ease;
+    -o-transition: .25s all ease;
+    transition: .25s all ease;
+}
+/* Transition */
+.select:hover::after {
+    color: #24851d;
+    cursor: url(../MU2.cur), auto;
+}
+
+
+
