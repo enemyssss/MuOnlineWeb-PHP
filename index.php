@@ -9,16 +9,17 @@
         <meta charset="UTF-8">
         <link rel="stylesheet" href="images/css/style.css">
         <link rel="stylesheet" href="images/css/navigations.css">
+          <link rel="stylesheet" href="images/css/charPanel.css">
         <link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
         <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
         <link rel="SHORTCUT ICON" href="images/favicon.ico" />
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script type="text/javascript" src="includes/javascript/jquery.js"></script>
 	<script type="text/javascript" src="includes/javascript/ajax.js"></script>
-	<script type="text/javascript" src="includes/javascript/scripts.js"></script> 
+	<script type="text/javascript" src="includes/javascript/scripts.js"></script>
     </head>
     <body>
-        
+
         <!-- Main Content -->
             <!-- Header -->
             <header class="header"> </header>
@@ -45,23 +46,23 @@
             </nav>
         </div>
             <div class="flex-container wrapper">
-                
+
                  <!-- Sidebar -->
                 <aside class="sidebar">
-            <?php 
-                include 'modules/accpanel.php'; 
-                include 'modules/serverInfo.php'; 
+            <?php
+                include 'modules/accpanel.php';
+                include 'modules/serverInfo.php';
             ?>
                 </aside>
 
                 <!-- Content -->
                 <section class="content">
-                   <?php echo "<div id='main'></div>"; ?>       
+                   <?php echo "<div id='main'></div>"; ?>
                 </section>
 
                 <!-- Sidebar -->
                 <aside class="sidebar">
-                 <?php 
+                 <?php
                   include 'modules/rankings/top5char.php';
                   include 'modules/rankings/top5guilds.php';
                   ?>
@@ -71,7 +72,7 @@
 
             <!-- Footer -->
             <footer class="footer">
-                Footer                
+                Footer
                 <p>
                     Esse enim quam vellet iniquus iustus poterat inpune. Tu enim ista lenius, hic Stoicorum more nos vexat. Duo Reges: constructio interrete.
                 </p>
