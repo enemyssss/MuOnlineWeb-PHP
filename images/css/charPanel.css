@@ -2,7 +2,6 @@
   width: 50%;
   height: 30%;
   background-image: linear-gradient(#ffffff, #f9f9f9);
-  border: red px solid;
 }
 
 .Name_info1 {display:inline-block; float: left;}
@@ -15,7 +14,14 @@
 .proGif img {width: 200px; margin-top: 5%}
 
 .proChara {border:1px solid black; width: 7fr; height: 5fr; margin-top: 4px; display: inline-block; float: left; background-color:rgba(0,0,0,0.2) ; margin-left: 20px; padding: 10px; overflow: hidden; }
-
+.proChara:hover{
+  -webkit-transform: scale(0.9);
+  -ms-transform: scale(0.9);
+  transform: scale(0.9);
+  transition: 1.0s ease;
+  border: 1px solid #1A878F;
+  color: #28D2DE;
+}
 .proTitle { font-family: 'Slabo 27px', serif;  text-transform: uppercase;
   font-size: 15px;
   background-color: #3f403e;

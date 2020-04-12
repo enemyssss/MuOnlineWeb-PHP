@@ -22,29 +22,45 @@
 
         <!-- Main Content -->
             <!-- Header -->
-            <header class="header"> </header>
- <div class="nav-menu">
-            <!-- Navigation -->
+
+        <div id="main-navigation">
+            <div class="logo">
+                <a onclick ='web("index.php")'><?php echo $server; ?></a>
+            </div>
             <nav>
-                <ul class="navigation">
-                    <li><a onclick ='web("modules/news.php")'>HOME</a></li>
-                    <li><a onclick ='web("modules/register.php")'>REGISTER</a></li>
-                    <li><a onclick ='web("modules/download.php")'>DOWNLOAD</a></li>
-                    <li><a onclick ='web("modules/statistics.php")'>STATISTICS</a></li>
-                    <li><a onclick ='web("modules/rankings/rankings.php")'>RANKINGS</a>
-                    <ul>
-                    <li><a onclick ='web("modules/rankings/rankings.php")'>TOP CHARACTERS</a></li>
-                    <li><a onclick ='web("modules/rankings/guilds.php")'>TOP GUILDS</a></li>
-                    <li><a onclick ='web("modules/rankings/killers.php")'>TOP KILLERS</a></li>
-                    <li><a onclick ='web("modules/rankings/topTime.php")'>TOP ONLINE TIME</a></li>
-                    <li><a onclick ='web("modules/rankings/online.php")'>ONLINE PLAYERS</a></li>
-                    </ul>
+                <ul>
+                    <li>
+                        <a onclick ='web("index.php")'>Home</a>
                     </li>
-                    <li><a onclick ='web("modules/contact.php")'>CONTACT US</a></li>
-                    <li><a target="_blank" href="#">FORUM</a></li>
+                    <li>
+                        <a onclick ='web("modules/register.php")'>Register</a>
+                    </li>
+                    <li>
+                        <a onclick ='web("modules/download.php")'>Download</a>
+                    </li>
+                    <li>
+                        <a onclick ='web("modules/statistics.php")'>Statistics</a>
+                    </li>
+                    <li>
+                        <a onclick ='web("modules/serverInfo.php")'>Server Info</a>
+                    </li>
+                    <li class="dropdown">
+                        <a onclick ='web("modules/rankings/rankings.php")'>Rankings</a>
+                        <ul>
+                            <li><a onclick ='web("modules/rankings/rankings.php")'>Top Characters</a></li>
+                            <li><a onclick ='web("modules/rankings/guilds.php")'>Top Guilds</a></li>
+                            <li><a onclick ='web("modules/rankings/killers.php")'>Top PVP</a></li>
+                            <li><a onclick ='web("modules/rankings/topTime.php")'>Top Online Time</a></li>
+                            <li><a onclick ='web("modules/rankings/online.php")'>Who is online</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="">Forum</a>
+                    </li>
                 </ul>
             </nav>
         </div>
+        <header class="header"> </header>
             <div class="flex-container wrapper">
 
                  <!-- Sidebar -->
@@ -74,7 +90,7 @@
             <footer class="footer">
                 Footer
                 <p>
-                    Esse enim quam vellet iniquus iustus poterat inpune. Tu enim ista lenius, hic Stoicorum more nos vexat. Duo Reges: constructio interrete.
+                    Copyright 2019 - <?php echo date("Y")?> <a href="https://github.com/enemyssss" target="_blank">enemY</a>. All rights reserved!
                 </p>
             </footer>
 

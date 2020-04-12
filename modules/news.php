@@ -1,18 +1,19 @@
-               <div id="menu">
-                <article>
-                    <h1><span class="fontawesome-lock"></span>NEWS 1</h1>
+            <div id="menu">
+            <?php
+            include '../includes/functions.php';
+            include '../includes/config.php';
+              $conn = is_sqlConn();
+              $sql = sqlsrv_query($conn,"Select date,[content],subject,author FROM news ORDER BY date DESC ");
+              for($i=0; $i < $row = sqlsrv_fetch_array($sql, SQLSRV_FETCH_NUMERIC); ++$i)
+              {
+                  echo "
+                     <article>
+                    <h1><span class=\"fontawesome-lock\"></span>".base64_decode($row[2])."</h1>
                     <fieldset>
-                    <p>Duis accumsan, nulla eget pulvinar rutrum, eros eros ultricies velit, ac porta lorem ipsum non urna. Nunc pharetra bibendum fringilla. Maecenas a posuere elit, sed tincidunt tortor. Duis id sem neque. Donec sed porttitor mi. Vivamus id tempor felis. Suspendisse aliquam sed sem eu lobortis. Suspendisse diam dui, fringilla at fringilla vel, pretium vitae nunc. Praesent quis imperdiet neque, eget molestie nibh. Nunc fermentum sollicitudin pretium.</p>
+                    <p>".base64_decode($row[1])."</p>
+                    <p>". date("d M Y",$row[0])." by ".$row[3]."</p>
                     </fieldset>
-
-                    <h1><span class="fontawesome-lock"></span>NEWS 2</h1>
-                    <fieldset>
-                    <p>Duis accumsan, nulla eget pulvinar rutrum, eros eros ultricies velit, ac porta lorem ipsum non urna. Nunc pharetra bibendum fringilla. Maecenas a posuere elit, sed tincidunt tortor. Duis id sem neque. Donec sed porttitor mi. Vivamus id tempor felis. Suspendisse aliquam sed sem eu lobortis. Suspendisse diam dui, fringilla at fringilla vel, pretium vitae nunc. Praesent quis imperdiet neque, eget molestie nibh. Nunc fermentum sollicitudin pretium.</p>
-                    </fieldset>
-
-                    <h1><span class="fontawesome-lock"></span>NEWS 3</h1>
-                    <fieldset>
-                    <p>Duis accumsan, nulla eget pulvinar rutrum, eros eros ultricies velit, ac porta lorem ipsum non urna. Nunc pharetra bibendum fringilla. Maecenas a posuere elit, sed tincidunt tortor. Duis id sem neque. Donec sed porttitor mi. Vivamus id tempor felis. Suspendisse aliquam sed sem eu lobortis. Suspendisse diam dui, fringilla at fringilla vel, pretium vitae nunc. Praesent quis imperdiet neque, eget molestie nibh. Nunc fermentum sollicitudin pretium.</p>
-                    </fieldset>
-                </article>
+                    </article> ";
+              }
+              ?>
                </div>

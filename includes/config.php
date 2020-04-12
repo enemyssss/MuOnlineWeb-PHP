@@ -5,7 +5,7 @@ $connectionInfo = array("Database"=>"MuOnline", "UID"=>"sa", "PWD"=>"123456");
 
 //Server Info
 
-$server="Test"; // Name of your server
+$server="Mu Online Server Name"; // Name of your server
 $serverVer="99b"; // Server Version
 $serverExpDrop="500x/60%"; // Server Exp
 $serverIp="127.0.0.1"; // Server Ip Adress
@@ -31,8 +31,13 @@ $clientLink = "http://test.com/"; // Insert link
 //Character Info
 $resetLevel = 400;
 $resetMoney = 5000000;
-$clearPoints = 0; // 0 - OFF / 1 - ON
+$clearStats = 1; // 0 - OFF / 1 - ON
+$levelUpPoints = 0; // Set LevelUpPoints when $clearStats = 1
 $maxResets = 999;
 $teleportMoney = 5000000;
+$clearSkillsMoney = 5000000;
+$clearSkillTreeMoney = 500000;
+$clearInvMoney = 50000;
+$clearPKMoney = 50000;
 
 ?>

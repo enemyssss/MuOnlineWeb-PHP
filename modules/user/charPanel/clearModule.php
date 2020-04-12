@@ -1,12 +1,12 @@
-<form id="teleportChar" method="POST">
+<form id="clearModule" method="POST">
     <div id="menu">
-        <h1><span class="fontawesome-lock"></span>Reset Character</h1>
+        <h1><span class="fontawesome-lock"></span>Clear Skills & Inventory</h1>
         <fieldset>
-           <?php include 'menu.php'; ?>
+            <?php include 'menu.php'; ?>
             <table class="menu-table">
                 <tbody>
                 <td><div class="select">
-                        <select name="teleportChar">
+                        <select name="clearModule">
                             <option selected disabled>Choose an Character</option>
                             <?php
                             include '../../../includes/functions.php';
@@ -16,23 +16,23 @@
                             $conn = is_sqlConn();
                             $stmt = sqlsrv_query($conn,"SELECT Name,Class,LevelUpPoint,Resets,cLevel,Grandreset from Character where AccountID='$user'");
                             while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC)){
-                                    echo "<option value='$row[0]'>$row[0]</option>";
-                                }
+                                echo "<option value='$row[0]'>$row[0]</option>";
+                            }
                             ?>
                         </select> </div>
                     <div class="select">
-                    <select name="city" >
-                        <option selected disabled>Choose an City</option>
-                        <option value="Lorencia">Lorencia</option>
-                        <option value="Devias">Devias</option>
-                        <option value="Noria">Noria</option>
-                        <option value="Elbeland">Elbeland</option>
-                    </select>
+                        <select name="options">
+                            <option selected disabled>Choose an Option</option>
+                            <option value="nm">Clear Skills</option>
+                            <option value="st">Clear Skill Tree</option>
+                            <option value="inv">Clear Inventory</option>
+                            <option value="pk">Clear PK</option>
+                        </select>
                     </div>
-                   <input type="button" class="submit" onclick ='functions("teleportChar")' value="Teleport Character"><br>
-                    <div align="center" id="teleportChars"></td></div>
-                </tbody>
+                    <input type="button" class="submit" onclick ='functions("clearModule")' value="Clear"><br>
+                    <div align="center" id="clearModules"></td></div>
+    </tbody>
 
-        </fieldset>
+    </fieldset>
     </div>
 </form>

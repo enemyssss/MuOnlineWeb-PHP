@@ -16,9 +16,8 @@ function count_rows($query){
     require('config.php');
     $conn = is_sqlConn();
         $stmt = sqlsrv_query($conn,$query);
-        while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC)){
+        while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC))
             return $row[0];
-    }
 }
 
 // Statistics func 2
@@ -69,7 +68,7 @@ function check_input($data, $problem='')
     $data = htmlspecialchars($data);
     if ($problem && strlen($data) == 0)
     {
-        show_error($problem);
+       show_source($problem);
     }
     return $data;
 }
@@ -115,4 +114,24 @@ function check_input($data, $problem='')
         $stmt = sqlsrv_query($conn,"SELECT AccountID,Name from Character JOIN AccountCharacter ON AccountCharacter.Id=Character.AccountID where Name=?",$params);
         while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC))
             return $account != $row[0];
+    }
+
+    // Write text
+    function writeText($filename,$text)
+    {
+
+        if (file_exists($filename))
+        {
+            $current = file_get_contents($filename);
+            $current .= $text."\n";
+            file_put_contents($filename, $current);
+        }
+        else
+        {
+            $myfile = fopen($filename, "w");
+            $current = file_get_contents($filename);
+            $current .= $text."\n";
+            file_put_contents($filename, $current);
+        }
+
     }
