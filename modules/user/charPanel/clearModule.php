@@ -3,8 +3,7 @@
         <h1><span class="fontawesome-lock"></span>Clear Skills & Inventory</h1>
         <fieldset>
             <?php include 'menu.php'; ?>
-            <table class="menu-table">
-                <tbody>
+            <div class="menu-div">
                 <td><div class="select">
                         <select name="clearModule">
                             <option selected disabled>Choose an Character</option>
@@ -31,7 +30,7 @@
                     </div>
                     <input type="button" class="submit" onclick ='functions("clearModule")' value="Clear"><br>
                     <div align="center" id="clearModules"></td></div>
-    </tbody>
+    </div>
 
     </fieldset>
     </div>

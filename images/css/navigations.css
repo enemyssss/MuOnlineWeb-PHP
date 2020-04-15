@@ -180,3 +180,32 @@ nav li li a:hover{background:#bdc3c7;background:#FAFBFB}
 }
 
 /* Acc-Char nav */
+
+.accNav {
+    width: 100%;
+    background-color: #1E262D;
+    overflow: auto;
+    margin-bottom: 2px;
+    border: 1px solid black;
+}
+
+.accNav a {
+    float: left;
+    padding: 12px;
+    color: white;
+    text-decoration: none;
+    font-size: 17px;
+    border-right: 1px solid black;
+}
+
+.accNav a:hover {
+    background-color: #28D2DE;
+}
+
+
+@media screen and (max-width: 500px) {
+    .accNav a {
+        float: none;
+        display: block;
+    }
+}

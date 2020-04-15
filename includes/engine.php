@@ -20,10 +20,10 @@ include 'config.php';
 
       if(empty($account) || empty($userpass)){echo 'Empty fields!';}
       elseif(isset($account) && isset($userpass) && !empty($account) && !empty($userpass)){
-      $query = count_rows("SELECT Count (*) as count FROM MEMB_INFO WHERE memb___id='$account'");
+      $query = count_rows("SELECT Count (*) as count FROM MEMB_INFO WHERE memb___id=?",$a = array($account));
        //SQL Injection Security ->
       if($query > 0){
-           $requery = count_rows2("SELECT * FROM MEMB_INFO WHERE memb___id='$account'");
+           $requery = count_rows2("SELECT * FROM MEMB_INFO WHERE memb___id=?",$a = array($account));
       if($requery['memb__pwd'] === $cryptPass){
           $_SESSION['username'] = $account;
           echo "<script type=\"text/javascript\">location.reload(true);</script>";
@@ -51,9 +51,10 @@ include 'config.php';
         $email = filter_input(INPUT_POST, "email", FILTER_SANITIZE_EMAIL);
         $secretquest = filter_input(INPUT_POST, "secretquest", FILTER_SANITIZE_SPECIAL_CHARS);
         $secretanswer = filter_input(INPUT_POST, "secretanswer", FILTER_SANITIZE_SPECIAL_CHARS);
+        $IP = $_SERVER['REMOTE_ADDR'];
 
-        if(count_rows("SELECT Count (*) as count FROM MEMB_INFO WHERE memb___id='$username'")>0){echo "This username is alredy taken!";}
-        elseif(count_rows("SELECT Count (*) as count FROM MEMB_INFO WHERE mail_addr='$email'")>0){echo "This email is alredy taken!";}
+        if(count_rows("SELECT Count (*) as count FROM MEMB_INFO WHERE memb___id=?)",$a = array($username))>0){echo "This username is alredy taken!";}
+        elseif(count_rows("SELECT Count (*) as count FROM MEMB_INFO WHERE mail_addr=?)",$a = array($email))>0){echo "This email is alredy taken!";}
         elseif(empty($username) || empty($password) || empty($repassword) || empty($email) || empty($secretquest) || empty($secretanswer)){ echo "Empty fields!";}
         elseif(strlen($username) < 4 || strlen($password) < 4 || strlen($repassword) < 4 || strlen($email) < 4 || strlen($secretquest) < 4 || strlen($secretanswer) < 4){ echo "Please, insert more then 4 characters !";}
         elseif(strlen($username) > 10) { echo "Please, dont insert more then 10 characters in username!";}
@@ -66,7 +67,7 @@ include 'config.php';
         else{
             $cryptPass = crypt($password,"saltPasS");
             $cryptEmail= crypt($email,"salteMail");
-            $sql = "INSERT INTO MEMB_INFO (memb___id,memb__pwd,memb_name,sno__numb,mail_addr,appl_days,modi_days,out__days,true_days,mail_chek,bloc_code,ctl1_code,fpas_ques,fpas_answ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $sql = "INSERT INTO MEMB_INFO (memb___id,memb__pwd,memb_name,sno__numb,mail_addr,appl_days,modi_days,out__days,true_days,mail_chek,bloc_code,ctl1_code,fpas_ques,fpas_answ,IP) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $params= array($username,$cryptPass,$username,1,$cryptEmail,0,0,0,0,1,0,0,$secretquest,$secretanswer);
             $sqlB = "INSERT INTO VI_CURR_INFO (ends_days,chek_code,used_time,memb___id,memb_name,memb_guid,sno__numb,Bill_Section,Bill_value,Bill_Hour,Surplus_Point,Surplus_Minute,Increase_Days ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $paramsB = array(date("Y"),1,1234,$username,$username,1,7,6,3,6,6,0,0);
@@ -92,8 +93,8 @@ include 'config.php';
      $contactComment = filter_input(INPUT_POST, "contactComment", FILTER_SANITIZE_SPECIAL_CHARS);
 
      if(empty($contactUser) || empty($contactEmail) || empty($contactSubject)|| empty($contactComment)){ echo 'We are sorry, but there appears to be a problem with the form you submitted.'; }
-     elseif(count_rows("SELECT Count (*) as count FROM MEMB_INFO WHERE memb___id='$contactUser'")<1){echo 'Please,insert valid account!';}
-     elseif(count_rows("SELECT Count (*) as count FROM MEMB_INFO WHERE mail_addr='$contactEmail'")<1){echo 'Please,insert valid email adress!';}
+     elseif(count_rows("SELECT Count (*) as count FROM MEMB_INFO WHERE memb___id=?",$a = array($contactUser))<1){echo 'Please,insert valid account!';}
+     elseif(count_rows("SELECT Count (*) as count FROM MEMB_INFO WHERE mail_addr=?",$a = array($contactEmail))<1){echo 'Please,insert valid email adress!';}
      elseif (!filter_var($contactEmail, FILTER_VALIDATE_EMAIL)){ echo "Please,insert valid email adress!"; }
      elseif (check_input(array($contactUser,$contactEmail))){}
      elseif (strlen($contactComment)<2){echo'The Comments you entered do not appear to be valid.';}
@@ -116,7 +117,7 @@ include 'config.php';
          if(empty($mypassword) || empty($newpassword) || empty($newrepassword)){ echo 'Empty fields!';}
          elseif(isset($mypassword) && isset($newpassword) && isset($newrepassword)){
          if($newpassword != $newrepassword){ echo 'Error! Check new password and re-newpassword!';}
-         elseif(count_rows2("SELECT memb__pwd FROM MEMB_INFO WHERE memb___id='".$_SESSION['username']."'") != $mypassword) {echo 'Error! Check the password!';}
+         elseif(count_rows2("SELECT memb__pwd FROM MEMB_INFO WHERE memb___id=?",$a = array($_SESSION['username'])) != $mypassword) {echo 'Error! Check the password!';}
          elseif(strlen($newpassword) < 6){ echo 'The password must be more than 6 symbols!';}
          elseif(check_numeric_alpha($newpassword)){
          }else{
@@ -138,8 +139,8 @@ include 'config.php';
          (int)$ene = sqlsrv_escape_string(filter_input(INPUT_POST, "ene", FILTER_SANITIZE_SPECIAL_CHARS));
          (int)$com = sqlsrv_escape_string(filter_input(INPUT_POST, "com", FILTER_SANITIZE_SPECIAL_CHARS));
          $charPost = filter_input(INPUT_POST, "Character", FILTER_SANITIZE_SPECIAL_CHARS);
-         $check = count_rows2("Select * from Character where Name='$charPost'");
-         $checkStatus = count_rows2("Select * from Memb_Stat where memb___id='".$_SESSION['username']."'");
+         $check = count_rows2("Select * from Character where Name=?",$a = array($charPost));
+         $checkStatus = count_rows2("Select * from Memb_Stat where memb___id=?",$a = array($_SESSION['username']));
 
          if ($check['Class'] == 64 || $check['Class'] == 66) {
            $sum = (int)$check['LevelUpPoint'] - ((int)$str+(int)$agi+(int)$vit+(int)$ene+(int)$com);
@@ -192,8 +193,8 @@ include 'config.php';
           //RESET CHARACTER MODULE ------>
     case 'resetChar':
         $charPost = filter_input(INPUT_POST, "resetChar", FILTER_SANITIZE_SPECIAL_CHARS);
-        $check = count_rows2("Select * from Character where Name='$charPost'");
-        $checkStatus = count_rows2("Select * from Memb_Stat where memb___id='".$_SESSION['username']."'");
+        $check = count_rows2("Select * from Character where Name=?",$a=array($charPost));
+        $checkStatus = count_rows2("Select * from Memb_Stat where memb___id=?",$a=array($_SESSION['username']));
 
                 if (empty($charPost)) {echo "Please, select character!";}
                 elseif(checkAccountCharacter($_SESSION['username'],$charPost)){ writeText('information/hackers.txt','Account:"'.$checkStatus['memb___id'].'",IP:"'.$checkStatus['IP'].'", Date:"'.date("Y/m/d").'" , Module:"Reset Character"');}
@@ -352,9 +353,9 @@ include 'config.php';
 case 'teleportChar':
             $charPost = filter_input(INPUT_POST, "teleportChar", FILTER_SANITIZE_SPECIAL_CHARS);
             $cityPost = filter_input(INPUT_POST, "city", FILTER_SANITIZE_SPECIAL_CHARS);
+            $check = count_rows2("Select * from Character where Name=?",$a = array($charPost));
+            $checkStatus = count_rows2("Select * from Memb_Stat where memb___id=?",$a = array($_SESSION['username']));
             $math = $check['Money'] - $teleportMoney;
-            $check = count_rows2("Select * from Character where Name='$charPost'");
-            $checkStatus = count_rows2("Select * from Memb_Stat where memb___id='".$_SESSION['username']."'");
 
                 if (empty($charPost)) {echo "Please, select character!";}
                 elseif (empty($cityPost)) {echo "Please, select city!";}
@@ -423,6 +424,7 @@ case 'teleportChar':
 
 
                 }
+                break;
                 //TELEPORT CHARACTER MODULE <------
 
             //Clear Skills  MODULE <------
@@ -430,8 +432,8 @@ case 'teleportChar':
                 case 'clearModule':
                     $optionPost = filter_input(INPUT_POST, "options", FILTER_SANITIZE_SPECIAL_CHARS);
                     $charPost = filter_input(INPUT_POST, "clearModule", FILTER_SANITIZE_SPECIAL_CHARS);
-                    $check = count_rows2("Select * from Character where Name='$charPost'");
-                    $checkStatus = count_rows2("Select * from Memb_Stat where memb___id='".$_SESSION['username']."'");
+                    $check = count_rows2("Select * from Character where Name=?",$a = array($charPost));
+                    $checkStatus = count_rows2("Select * from Memb_Stat where memb___id=?",$a = array($_SESSION['username']));
                     if (empty($charPost) || empty($optionPost)) { echo "Please, select Character and Option!"; }
                     elseif ($checkStatus['ConnectStat'] > 0 ) { echo "Your character is online!";}
                     else{

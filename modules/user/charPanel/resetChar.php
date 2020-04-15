@@ -3,8 +3,7 @@
         <h1><span class="fontawesome-lock"></span>Reset Character</h1>
         <fieldset>
            <?php include 'menu.php'; ?>
-            <table class="menu-table">
-                <tbody>
+            <div class="menu-div">
                 <td><div class="select">
                   <select name="resetChar" onchange="showDiv(this)" >
                       <option selected disabled>Choose an Character</option>
@@ -21,9 +20,8 @@
             ?>
                    </select></div><br>
                    <input type="button" class="submit" onclick ='functions("resetChar")' value="Reset Character"><br>
-                    <div align="center" id="resetChars"></td></div>
-                </tbody>
-
+                    <div align="center" id="resetChars"></div>
+                </div>
         </fieldset>
     </div>
 </form>

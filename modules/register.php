@@ -3,7 +3,7 @@
 <div id="menu">
      <h1><span class="fontawesome-lock"></span>Register For An Account</h1>
      <fieldset>
-         <div class="main">
+         <div class="menu-div">
   <p>To sign-up for a free basic account please provide us with some basic information using
   the contact form below. Please use valid credentials.</p>
     <input type="text" name="username"  placeholder="Username">
@@ -16,6 +16,7 @@
     <input type="button" class="submit" onclick ='functions("register")' value="Register">
     <div align="center" id="registers"></div><br>
                    </div>
+
           </fieldset>
      </div>
 </form>

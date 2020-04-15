@@ -3,8 +3,7 @@
         <h1><span class="fontawesome-lock"></span>Reset Character</h1>
         <fieldset>
            <?php include 'menu.php'; ?>
-            <table class="menu-table">
-                <tbody>
+            <div class="menu-div">
                 <td><div class="select">
                         <select name="teleportChar">
                             <option selected disabled>Choose an Character</option>
@@ -31,8 +30,7 @@
                     </div>
                    <input type="button" class="submit" onclick ='functions("teleportChar")' value="Teleport Character"><br>
                     <div align="center" id="teleportChars"></td></div>
-                </tbody>
-
+                </div>
         </fieldset>
     </div>
 </form>

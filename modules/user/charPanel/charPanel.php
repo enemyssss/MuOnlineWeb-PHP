@@ -4,6 +4,7 @@
           <?php
           include '../../../includes/functions.php';
           include '../../../includes/config.php';
+          include 'menu.php';
           check_session();
 
         $user = $_SESSION['username'];
@@ -45,7 +46,7 @@
 
                   echo'
               <div class="proMain">
-              <a  onclick =\'web("modules/user/charPanel/menu.php")\'>
+              <a  onclick =\'web("modules/user/charPanel/charPanel.php")\'>
                 <div class="proChara">
                 <div class="proTitle"> '.$row[0].'
                     </div>
@@ -80,5 +81,6 @@
         }
          }
             ?>
+            </div>
           </fieldset>
     </div>

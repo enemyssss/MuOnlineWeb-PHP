@@ -41,4 +41,3 @@ function news(content)
 $("#news" +content).toggle('slow');
 
 }
-

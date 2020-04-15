@@ -12,19 +12,19 @@ function is_sqlConn(){
 }
 
 // Statistics func
-function count_rows($query){
+function count_rows($query,$params=array()){
     require('config.php');
     $conn = is_sqlConn();
-        $stmt = sqlsrv_query($conn,$query);
+        $stmt = sqlsrv_query($conn,$query,$params);
         while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC))
             return $row[0];
 }
 
 // Statistics func 2
-function count_rows2($query){
+function count_rows2($query,$params=array()){
     require('config.php');
     $conn = is_sqlConn();
-        $stmt = sqlsrv_query($conn,$query);
+        $stmt = sqlsrv_query($conn,$query,$params);
         while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC))
             return $row;
 }
@@ -115,6 +115,17 @@ function check_input($data, $problem='')
         while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC))
             return $account != $row[0];
     }
+
+    //Check Admin Account
+    function checkAdmin($account)
+    {
+        require('config.php');
+        $conn = is_sqlConn();
+        $stmt = sqlsrv_query($conn,"SELECT administrator from MEMB_INFO WHERE memb___id='$account'");
+        while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC))
+            return $row[0];
+    }
+
 
     // Write text
     function writeText($filename,$text)

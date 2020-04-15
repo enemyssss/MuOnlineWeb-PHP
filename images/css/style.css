@@ -115,6 +115,20 @@ p{
 {
   background-color:#1B1B1B;
 }
+
+/* Menu DIV */
+
+.menu-div{
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 2px;
+    border: 1px solid black;
+    background:rgba(0,0,0,0.2);
+    padding: 0 auto;
+    text-align: center;
+    margin: 0 auto;
+}
+
 /*Input + Class Button & Form*/
 .ranking{
   width:80%;
@@ -188,12 +202,6 @@ input[type="text"],input[type="email"],input[type="password"] {
   position:fixed;
   right:3%;
   top:0;
-}
-
-.main{
-   text-align: center;
-    width: 90%;
-    margin: 0 auto;
 }
 
 
