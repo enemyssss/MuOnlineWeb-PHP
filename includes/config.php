@@ -11,16 +11,7 @@ $serverExpDrop="500x/60%"; // Server Exp
 $serverIp="127.0.0.1"; // Server Ip Adress
 $serverPort="44405"; // Server Port
 
-//Basic information
-	if ($fp=@fsockopen($serverIp,$serverPort,$ERROR_NO,$ERROR_STR,(float)0.5))
-	{
-	fclose($fp);
-	$serstats= "ON";
-	}
-else
-	{
-	$serstats= "OFF";
-	}
+
 
 //Download Client Info
 $clientName = "Test"; // Insert client Name
@@ -39,5 +30,17 @@ $clearSkillsMoney = 5000000;
 $clearSkillTreeMoney = 500000;
 $clearInvMoney = 50000;
 $clearPKMoney = 50000;
+
+
+// Module Location
+$location = array(
+#		|     City     |   Location     |  Amount          |  Resource  |
+#        ---------------------------------------------------------------
+    array(	"Lorencia" ,  "0,134,127"	,  "5000000"	   ,  "zen" ),
+    array(	"Davias"   ,  "2,206,40"	,  "5000000"	   ,  "zen"	),
+    array(	"Noria"    ,  "3,172,107"	,  "5000000"	   ,  "zen"	),
+    array(	"Elbeland" ,  "51,217,41"	,  "5000000"	   ,  "zen"	),
+);
+
 
 ?>

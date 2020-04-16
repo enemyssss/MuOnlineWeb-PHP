@@ -129,6 +129,13 @@ p{
     margin: 0 auto;
 }
 
+.menu-acc{
+    width: 100%;
+    padding-top: 5px;
+    text-align: center;
+    margin: 0 auto;
+}
+
 /*Input + Class Button & Form*/
 .ranking{
   width:80%;

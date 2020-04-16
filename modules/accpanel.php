@@ -111,7 +111,7 @@ else{
 <div id="menu">
      <h2><span class="fontawesome-lock"></span>ACCOUNT PANEL</h2>
      <fieldset>
-     <div class="main">
+     <div class="menu-acc">
                     <input type="text" placeholder="Username" name="account">
                     <input type="password" placeholder="Password" name="userpass">
                     <input type="button" class="submit" onclick ="functions(\'login\')" value="Login">

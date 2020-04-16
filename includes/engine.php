@@ -1,16 +1,18 @@
 <?php
-session_start();
-include 'functions.php';
-include 'config.php';
+    session_start();
+    include 'functions.php';
+    include 'config.php';
 
-//GET and POST Connections
- $id = filter_input(INPUT_GET, "function", FILTER_SANITIZE_SPECIAL_CHARS);
- //reCAPTCHA Setup
- $reCaptcha = post_captcha(filter_input(INPUT_POST, "g-recaptcha-response", FILTER_SANITIZE_SPECIAL_CHARS));
- // SQL Connection Check
- $conn = is_sqlConn();
+    //GET and POST Connections
+     $id = filter_input(INPUT_GET, "function", FILTER_SANITIZE_SPECIAL_CHARS);
+     //reCAPTCHA Setup
+     $reCaptcha = post_captcha(filter_input(INPUT_POST, "g-recaptcha-response", FILTER_SANITIZE_SPECIAL_CHARS));
+     // SQL Connection Check
+     $conn = is_sqlConn();
 
- switch ($id) {
+
+
+     switch ($id) {
 
      //Login Module
      case 'login':
@@ -133,11 +135,11 @@ include 'config.php';
 
            //ADD STATS MODULE ------>
      case 'addStats':
-         (int)$str = sqlsrv_escape_string(filter_input(INPUT_POST, "str", FILTER_SANITIZE_SPECIAL_CHARS));
-         (int)$agi = sqlsrv_escape_string(filter_input(INPUT_POST, "agi", FILTER_SANITIZE_SPECIAL_CHARS));
-         (int)$vit = sqlsrv_escape_string(filter_input(INPUT_POST, "vit", FILTER_SANITIZE_SPECIAL_CHARS));
-         (int)$ene = sqlsrv_escape_string(filter_input(INPUT_POST, "ene", FILTER_SANITIZE_SPECIAL_CHARS));
-         (int)$com = sqlsrv_escape_string(filter_input(INPUT_POST, "com", FILTER_SANITIZE_SPECIAL_CHARS));
+         $str = sqlsrv_escape_string(filter_input(INPUT_POST, "str", FILTER_SANITIZE_SPECIAL_CHARS));
+         $agi = sqlsrv_escape_string(filter_input(INPUT_POST, "agi", FILTER_SANITIZE_SPECIAL_CHARS));
+         $vit = sqlsrv_escape_string(filter_input(INPUT_POST, "vit", FILTER_SANITIZE_SPECIAL_CHARS));
+         $ene = sqlsrv_escape_string(filter_input(INPUT_POST, "ene", FILTER_SANITIZE_SPECIAL_CHARS));
+         $com = sqlsrv_escape_string(filter_input(INPUT_POST, "com", FILTER_SANITIZE_SPECIAL_CHARS));
          $charPost = filter_input(INPUT_POST, "Character", FILTER_SANITIZE_SPECIAL_CHARS);
          $check = count_rows2("Select * from Character where Name=?",$a = array($charPost));
          $checkStatus = count_rows2("Select * from Memb_Stat where memb___id=?",$a = array($_SESSION['username']));
@@ -150,7 +152,7 @@ include 'config.php';
            elseif ($str<0 || $agi<0 || $vit<0 || $ene<0 || $com<0) { echo "Please,add positive number!";}
            elseif (!is_numeric($str) || !is_numeric($agi) || !is_numeric($vit) || !is_numeric($ene) || !is_numeric($com)) { echo "Please,add only numbers!";}
            elseif ($check['LevelUpPoint'] < $sum ) { echo "You dont have enought points!";}
-           elseif ($checkStatus['ConnectStat']  > 0 ) { echo "Your character is online!";}
+           elseif (isAccoutOnline($_SESSION['username'])> 0 ) { echo "Your character is online!";}
            else{
                $sql = "Update Character SET Strength=?,Dexterity=?,Vitality=?,Energy=?,Leadership=?,LevelUpPoint=? where Name=?";
                $params = array($str,$agi,$vit,$ene,$com,$sum,$charPost);
@@ -171,7 +173,7 @@ include 'config.php';
               elseif ($str<0 || $agi<0 || $vit<0 || $ene<0) { echo "Please,add positive number!";}
               elseif (!is_numeric($str) || !is_numeric($agi) || !is_numeric($vit) || !is_numeric($ene)) { echo "Please,add only numbers!";}
               elseif ($check['LevelUpPoint'] < $sum ) { echo "You dont have enought points!";}
-              elseif ($checkStatus['ConnectStat'] > 0 ) { echo "Your character is online!";}
+              elseif ( isAccoutOnline($_SESSION['username']) > 0 ) { echo "Your character is online!";}
               else{
                   $sql = "Update Character SET Strength=?,Dexterity=?,Vitality=?,Energy=?,LevelUpPoint=? where Name=?";
                   $params = array($str,$agi,$vit,$ene,$sum,$charPost);
@@ -194,20 +196,20 @@ include 'config.php';
     case 'resetChar':
         $charPost = filter_input(INPUT_POST, "resetChar", FILTER_SANITIZE_SPECIAL_CHARS);
         $check = count_rows2("Select * from Character where Name=?",$a=array($charPost));
-        $checkStatus = count_rows2("Select * from Memb_Stat where memb___id=?",$a=array($_SESSION['username']));
+        $checkStatus = count_rows2("Select * from Memb_Stat where memb___id=?",$a = array($_SESSION['username']));
 
                 if (empty($charPost)) {echo "Please, select character!";}
                 elseif(checkAccountCharacter($_SESSION['username'],$charPost)){ writeText('information/hackers.txt','Account:"'.$checkStatus['memb___id'].'",IP:"'.$checkStatus['IP'].'", Date:"'.date("Y/m/d").'" , Module:"Reset Character"');}
                 elseif($check['cLevel'] < $resetLevel) { echo "You dont have level for reset!"; }
                 elseif ($maxResets == $check['Resets']) { echo "Max resets!";}
-                elseif ($checkStatus['ConnectStat'] > 0 ) { echo "Your character is online!";}
+                elseif (isAccoutOnline($_SESSION['username']) > 0 ) { echo "Your character is online!";}
                 elseif ($check['Money'] < $resetMoney ) { echo "Your dont have enought zen!";}
                 else{
                     switch($clearStats)
                     {
                         case 0:
                             // Class SM-BK-MG-DL
-                             if ($check['Class'] == 0 || $check['Class'] == 1 || $check['Class'] == 3 || $check['Class'] == 16 || $check['Class'] == 17 || $check['Class'] == 19 || $check['Class'] == 48 || $check['Class'] == 50 || $check['Class'] == 64 || $check['Class'] == 66 )
+                             if (in_array($check['Class'], array(0,19,1,3,16,16,48,50,64,66)))
                              {
                                  $sql = "Update Character SET cLevel=?,Resets=?,MapNumber=?,MapPosX=?,MapPosY=?,Money=?,Experience=?,PkLevel=?,LevelUpPoint=? where Name=?";
                                  $params = array(1,$check['Resets']+1,0,134,127,$check['Money']-$resetMoney,1,0,0,$charPost);
@@ -221,7 +223,7 @@ include 'config.php';
                                  sqlsrv_close($conn);
                              }
                              // Class ELF
-                             elseif ($check['Class'] == 32 || $check['Class'] == 33 || $check['Class'] == 35 )
+                             elseif (in_array($check['Class'], array(32,33,35)))
                              {
                                  $sql = "Update Character SET cLevel=?,Resets=?,MapNumber=?,MapPosX=?,MapPosY=?,Money=?,Experience=?,PkLevel=?,LevelUpPoint=? where Name=?";
                                  $params = array(1,$check['Resets']+1,3,172,107,$check['Money']-$resetMoney,1,0,0,$charPost);
@@ -235,7 +237,7 @@ include 'config.php';
                                  sqlsrv_close($conn);
                              }
                              // Class Summoner
-                             elseif( $check['Class'] == 80 || $check['Class'] == 81 || $check['Class'] == 82)
+                             elseif (in_array($check['Class'], array(80,81,82)))
                              {
                                  $sql = "Update Character SET cLevel=?,Resets=?,MapNumber=?,MapPosX=?,MapPosY=?,Money=?,Experience=?,PkLevel=?,LevelUpPoint=? where Name=?";
                                  $params = array(1,$check['Resets']+1,51,217,41,$check['Money']-$resetMoney,1,0,0,$charPost);
@@ -252,7 +254,7 @@ include 'config.php';
 
                         case 1:
                             // Class BK
-                            if ($check['Class'] == 0 || $check['Class'] == 1 || $check['Class'] == 3)
+                            if (in_array($check['Class'], array(0,1,3)))
                             {
                                 $sql = "Update Character SET cLevel=?,Resets=?,MapNumber=?,MapPosX=?,MapPosY=?,Money=?,Experience=?,PkLevel=?,LevelUpPoint=?,Strength=?,Dexterity=?,Vitality=?,Energy=? where Name=?";
                                 $params = array(1,$check['Resets']+1,0,134,127,$check['Money']-$resetMoney,1,0,0,18,18,15,30,$charPost);
@@ -266,7 +268,7 @@ include 'config.php';
                                 sqlsrv_close($conn);
                             }
                             // Class SM
-                            elseif($check['Class'] == 16 || $check['Class'] == 17 || $check['Class'] == 19)
+                            elseif (in_array($check['Class'], array(16,17,19)))
                             {
                                 $sql = "Update Character SET cLevel=?,Resets=?,MapNumber=?,MapPosX=?,MapPosY=?,Money=?,Experience=?,PkLevel=?,LevelUpPoint=?,Strength=?,Dexterity=?,Vitality=?,Energy=? where Name=?";
                                 $params = array(1,$check['Resets']+1,0,134,127,$check['Money']-$resetMoney,1,0,0,28,20,25,10,$charPost);
@@ -280,7 +282,7 @@ include 'config.php';
                                 sqlsrv_close($conn);
                             }
                             // Class MG
-                            elseif($check['Class'] == 48 || $check['Class'] == 50)
+                            elseif (in_array($check['Class'], array(48,50)))
                             {
                                 $sql = "Update Character SET cLevel=?,Resets=?,MapNumber=?,MapPosX=?,MapPosY=?,Money=?,Experience=?,PkLevel=?,LevelUpPoint=?,Strength=?,Dexterity=?,Vitality=?,Energy=? where Name=?";
                                 $params = array(1,$check['Resets']+1,0,134,127,$check['Money']-$resetMoney,1,0,0,26,26,26,26,$charPost);
@@ -294,7 +296,7 @@ include 'config.php';
                                 sqlsrv_close($conn);
                             }
                             // Class Dark Lord
-                            elseif($check['Class'] == 64 || $check['Class'] == 66)
+                            elseif (in_array($check['Class'], array(64,66)))
                             {
                                 $sql = "Update Character SET cLevel=?,Resets=?,MapNumber=?,MapPosX=?,MapPosY=?,Money=?,Experience=?,PkLevel=?,LevelUpPoint=?,Strength=?,Dexterity=?,Vitality=?,Energy=?,LeaderShip=? where Name=?";
                                 $params = array(1,$check['Resets']+1,0,134,127,$check['Money']-$resetMoney,1,0,0,26,20,20,15,25,$charPost);
@@ -308,7 +310,7 @@ include 'config.php';
                                 sqlsrv_close($conn);
                             }
                             // Class ELF
-                            elseif ($check['Class'] == 32 || $check['Class'] == 33 || $check['Class'] == 35 )
+                            elseif (in_array($check['Class'], array(32,33,35)))
                             {
                                 $sql = "Update Character SET cLevel=?,Resets=?,MapNumber=?,MapPosX=?,MapPosY=?,Money=?,Experience=?,PkLevel=?,LevelUpPoint=?,Strength=?,Dexterity=?,Vitality=?,Energy=? where Name=?";
                                 $params = array(1,$check['Resets']+1,3,172,107,$check['Money']-$resetMoney,1,0,0,22,25,20,15,$charPost);
@@ -322,7 +324,7 @@ include 'config.php';
                                 sqlsrv_close($conn);
                             }
                             //Class Summoner
-                            elseif( $check['Class'] == 80 || $check['Class'] == 81 || $check['Class'] == 82)
+                            elseif (in_array($check['Class'], array(80,81,82)))
                             {
                                 $sql = "Update Character SET cLevel=?,Resets=?,MapNumber=?,MapPosX=?,MapPosY=?,Money=?,Experience=?,PkLevel=?,LevelUpPoint=?,Strength=?,Dexterity=?,Vitality=?,Energy=? where Name=?";
                                 $params = array(1,$check['Resets']+1,51,217,41,$check['Money']-$resetMoney,1,0,0,21,21,18,23,$charPost);
@@ -351,79 +353,34 @@ include 'config.php';
 
 //TELEPORT CHARACTER MODULE ------>
 case 'teleportChar':
-            $charPost = filter_input(INPUT_POST, "teleportChar", FILTER_SANITIZE_SPECIAL_CHARS);
-            $cityPost = filter_input(INPUT_POST, "city", FILTER_SANITIZE_SPECIAL_CHARS);
-            $check = count_rows2("Select * from Character where Name=?",$a = array($charPost));
-            $checkStatus = count_rows2("Select * from Memb_Stat where memb___id=?",$a = array($_SESSION['username']));
-            $math = $check['Money'] - $teleportMoney;
+//TELEPORT CHARACTER MODULE ------>
+    case 'teleportChar':
+        $charPost = filter_input(INPUT_POST, "teleportChar", FILTER_SANITIZE_SPECIAL_CHARS);
+        $cityPost = isset($_POST['city'])? (int)$_POST['city']: "";
+        $sql = "Update Character SET MapNumber=?,MapPosX=?,MapPosY=?,Money=?  where Name=?";
+        $check = count_rows2("Select * from Character where Name=?",$a = array($charPost));
+        $checkStatus = count_rows2("Select * from Memb_Stat where memb___id=?",$a = array($_SESSION['username']));
 
-                if (empty($charPost)) {echo "Please, select character!";}
-                elseif (empty($cityPost)) {echo "Please, select city!";}
-                elseif(checkAccountCharacter($_SESSION['username'],$charPost)){ writeText('information/hackers.txt','Account:"'.$checkStatus['memb___id'].'",IP:"'.$checkStatus['IP'].'", Date:"'.date("Y/m/d").'" , Module:"Teleport Character"');}
-                elseif ($checkStatus['ConnectStat'] > 0 ) { echo "Your character is online!";}
-                elseif ($check['Money'] < $teleportMoney ) { echo "Your dont have enought money! You need $teleportMoney zen to teleport.";}
-                else{
-                  switch ($cityPost) {
-                    case 'Lorencia':
-                    $sql = "Update Character SET MapNumber=?,MapPosX=?,MapPosY=?,Money=? where Name=?";
-                    $params = array(0,134,127,$math,$charPost);
-                    if (sqlsrv_query($conn,$sql,$params)) {
-                        echo "Character $charPost teleported to Lorencia!";
-                    }
-                    else {
-                        echo "Error in statement execution.\n";
-                        die(print_r(sqlsrv_errors(), true));
-                    }
-                    sqlsrv_close($conn);
-                      break;
-
-                      case 'Devias':
-                      $sql = "Update Character SET MapNumber=?,MapPosX=?,MapPosY=?,Money=?  where Name=?";
-                      $params = array(2,206,40,$math,$charPost);
-                      if (sqlsrv_query($conn,$sql,$params)) {
-                          echo "Character $charPost teleported to Devias!";
-                      }
-                      else {
-                          echo "Error in statement execution.\n";
-                          die(print_r(sqlsrv_errors(), true));
-                      }
-                      sqlsrv_close($conn);
-                        break;
-
-                        case 'Noria':
-                      $sql = "Update Character SET MapNumber=?,MapPosX=?,MapPosY=?,Money=?  where Name=?";
-                      $params = array(3,172,107,$math,$charPost);
-                      if (sqlsrv_query($conn,$sql,$params)) {
-                          echo "Character $charPost teleported to Noria!";
-                      }
-                      else {
-                          echo "Error in statement execution.\n";
-                          die(print_r(sqlsrv_errors(), true));
-                      }
-                      sqlsrv_close($conn);
-                      break;
-
-                      case 'Elbeland':
-                      $sql = "Update Character SET MapNumber=?,MapPosX=?,MapPosY=?,Money=?  where Name=?";
-                      $params = array(51,217,41,$math,$charPost);
-                      if (sqlsrv_query($conn,$sql,$params)) {
-                          echo "Character $charPost teleported to Elbelad!";
-                      }
-                      else {
-                          echo "Error in statement execution.\n";
-                          die(print_r(sqlsrv_errors(), true));
-                      }
-                      sqlsrv_close($conn);
-                      break;
-
-
-                    default:
-                      echo "Please,select one of the options!";
-                      break;
-                  }
-
-
-                }
+        if (empty($charPost)) {echo "Please, select character!";}
+        elseif(empty($cityPost)){echo "Please, select location!";}
+        elseif(!in_array($cityPost, range(0, count($location) - 1))){ echo "Please do not edit the form fields!";}
+        elseif (isAccoutOnline($_SESSION['username']) > 0 ) { echo "Your character is online!";}
+        elseif ($location[$cityPost][3] < $location[$cityPost][2]) {
+            echo "Your dont have enought {$location[$cityPost][3]}! You need " . number_format($location[$cityPost][2]) . " {$location[$cityPost][3]} to teleport.";
+        }
+        else{
+            $getLocation = explode(",", $location[$cityPost][1]);
+            $math  = userResource($charPost,$location[$cityPost][3]) - $location[$cityPost][2];
+            if (sqlsrv_query($conn,$sql,$getLocation[0],$getLocation[1],$getLocation[2],$math,$charPost)) {
+                echo "Character {$charPost} teleported to {$location[$cityPost][0]}!";
+            }
+            else {
+                echo "Error in statement execution.\n";
+                die(print_r(sqlsrv_errors(), true));
+            }
+            sqlsrv_close($conn);
+        }
+        break;
                 break;
                 //TELEPORT CHARACTER MODULE <------
 
@@ -433,9 +390,8 @@ case 'teleportChar':
                     $optionPost = filter_input(INPUT_POST, "options", FILTER_SANITIZE_SPECIAL_CHARS);
                     $charPost = filter_input(INPUT_POST, "clearModule", FILTER_SANITIZE_SPECIAL_CHARS);
                     $check = count_rows2("Select * from Character where Name=?",$a = array($charPost));
-                    $checkStatus = count_rows2("Select * from Memb_Stat where memb___id=?",$a = array($_SESSION['username']));
                     if (empty($charPost) || empty($optionPost)) { echo "Please, select Character and Option!"; }
-                    elseif ($checkStatus['ConnectStat'] > 0 ) { echo "Your character is online!";}
+                    elseif (isAccoutOnline($_SESSION['username']) > 0 ) { echo "Your character is online!";}
                     else{
                         switch ($optionPost)
                         {

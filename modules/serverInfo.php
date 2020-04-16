@@ -36,7 +36,7 @@
   </tr>
     <tr>
         <td><b>Status</b></td>
-    <td><?php echo $serstats ?></td>
+    <td><?php echo serverOn(); ?></td>
   </tr>
   </tbody>
   <tfoot></tfoot>

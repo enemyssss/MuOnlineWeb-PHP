@@ -1,48 +1,59 @@
 <?php
 
-// SQL Connection Check func
-function is_sqlConn(){
-    require('config.php');
-    $conn = sqlsrv_connect($serverName,$connectionInfo);
-    if ($conn === false) {
-        throw new Exception(print_r(sqlsrv_errors()));
-    } else {
-    return $conn;
-   }
-}
+        #================================
+        # SQL Connection Check Function
+        #================================
+        function is_sqlConn(){
+            require('config.php');
+            $conn = sqlsrv_connect($serverName,$connectionInfo);
+            if ($conn === false) {
+                throw new Exception(print_r(sqlsrv_errors()));
+            } else {
+            return $conn;
+           }
+        }
 
-// Statistics func
-function count_rows($query,$params=array()){
-    require('config.php');
-    $conn = is_sqlConn();
-        $stmt = sqlsrv_query($conn,$query,$params);
-        while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC))
-            return $row[0];
-}
+        #================================
+        # Statistics Func 1
+        #================================
+        function count_rows($query,$params=array()){
+            require('config.php');
+            $conn = is_sqlConn();
+                $stmt = sqlsrv_query($conn,$query,$params);
+                while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC))
+                    return $row[0];
+        }
 
-// Statistics func 2
-function count_rows2($query,$params=array()){
-    require('config.php');
-    $conn = is_sqlConn();
-        $stmt = sqlsrv_query($conn,$query,$params);
-        while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC))
-            return $row;
-}
+        #================================
+        # Statistics Func 2
+        #================================
+        function count_rows2($query,$params=array()){
+            require('config.php');
+            $conn = is_sqlConn();
+                $stmt = sqlsrv_query($conn,$query,$params);
+                while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC))
+                    return $row;
+        }
 
 
-//Security func
-function check_numeric_alpha($array){
-if (is_array($array)){
-foreach ($array as $values){
-if(!preg_match("/^[a-zA-Z0-9\-\_]*$/",$values)){
-echo "You have unhallowed characters in field!";
-}
-}
-}
-}
+        #================================
+        # Security Function - Check Input
+        #================================
+        function check_numeric_alpha($array){
+        if (is_array($array)){
+        foreach ($array as $values){
+        if(!preg_match("/^[a-zA-Z0-9\-\_]*$/",$values)){
+        echo "You have unhallowed characters in field!";
+                     }
+                 }
+            }
+        }
 
-// SQL Injection Security
-function sqlsrv_escape_string($data) {
+        #================================
+        # Security Function - SQL Injection
+        #================================
+
+        function sqlsrv_escape_string($data) {
         if ( !isset($data) or empty($data) ) return '';
         if ( is_numeric($data) ) return $data;
 
@@ -60,22 +71,26 @@ function sqlsrv_escape_string($data) {
         return $data;
     }
 
-// Security Func 2
-function check_input($data, $problem='')
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    if ($problem && strlen($data) == 0)
-    {
-       show_source($problem);
-    }
-    return $data;
-}
+        #================================
+        # Security Function
+        #================================
+        function check_input($data, $problem='')
+        {
+            $data = trim($data);
+            $data = stripslashes($data);
+            $data = htmlspecialchars($data);
+            if ($problem && strlen($data) == 0)
+            {
+               show_source($problem);
+            }
+            return $data;
+        }
 
 
-//reCAPTCHA v2 func
- function post_captcha($user_response) {
+    #================================
+    # reCAPTCHA v2 func
+    #================================
+     function post_captcha($user_response) {
         $fields_string = '';
         $fields = array(
             'secret' => '6LeA-pUUAAAAAF1gD6f9uKnrfb3Ey4MY0LZ9dHfR', // Insert your secret key here
@@ -97,7 +112,9 @@ function check_input($data, $problem='')
         return json_decode($result, true);
     }
 
-    //Session check func
+    #================================
+    # Sesson Check Function
+    #================================
     function check_session(){
         session_start();
         if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
@@ -105,7 +122,10 @@ function check_input($data, $problem='')
         }
     }
 
-    // Check Account-Session != AccountCharacter
+    #================================
+    # Check Account-Session != AccountCharacter
+    #================================
+
     function checkAccountCharacter($account,$charName)
     {
         require('config.php');
@@ -116,7 +136,10 @@ function check_input($data, $problem='')
             return $account != $row[0];
     }
 
-    //Check Admin Account
+    #================================
+    # Check Admin Account
+    #================================
+
     function checkAdmin($account)
     {
         require('config.php');
@@ -126,8 +149,9 @@ function check_input($data, $problem='')
             return $row[0];
     }
 
-
-    // Write text
+    #================================
+    # Write text Function
+    #================================
     function writeText($filename,$text)
     {
 
@@ -146,3 +170,53 @@ function check_input($data, $problem='')
         }
 
     }
+
+    #================================
+    # Is Account Online Funcktion
+    #================================
+    function isAccoutOnline($account)
+    {
+        $checkStatus = count_rows2("Select * from Memb_Stat where memb___id=?",$a = array($account));
+        return $checkStatus['ConnectStat']  > 0? 1:0;
+    }
+
+    #================================
+    #Is Server Online Function
+    #================================
+    function serverOn(){
+        include_once("includes/config.php");
+        return is_resource(@fsockopen($serverIp, $serverPort,$errNo, $errStr, 0.01)) ? "ON" : "OFF";
+    }
+
+    function userResource($charOrAccount, $resource){
+    #================================
+    # @ Function userResource check the database for requested user resource and return it's current amount
+    # @ param: int $charOrAccount | value 1 = account Name, value 2 = character Name
+    # @ param: string $resource |
+    # @ possible $resource values : credits, zen
+    # @ return: integer resource amount
+    #================================
+        switch($resource){
+            case "credits":
+                return count_rows2("Select * from Memb_Credits where memb___id=?", $a = array($charOrAccount))['credits'];
+            case "zen":
+                return count_rows2("Select Money from Character where Name=?", $a = array($charOrAccount))['Money'];
+        }
+    }
+
+    #================================
+    # Class Decode Function
+    #================================
+    function char_class($value, $view=0)
+    {
+        $class = array(
+            0  => array("Dark Wizard","DW"),1 => array("Soul Master","SM"),2 => array("Grand Master","GrM"),3 => array("Grand Master","GrM"),
+            16 => array("Dark Knight","DK"),17 => array("Blade Knight","BK"),18 => array("Blade Master","BM"),19 => array("Blade Master","BM"),
+            32 => array("Fairy Elf","Elf"),33 => array("Muse Elf","ME"),34 => array("High Elf","HE"),35 => array("High Elf","HE"),
+            48 => array("Magic Gladiator"),49 => array("Duel Master","DM"),50 => array("Duel Master","DM"),
+            64 => array("Dark Lord","DL"),65 => array("Lord Emperor","LE"),66 => array("Lord Emperor","LE"),
+        );
+
+        return isset($class[$value][$view]) ? $class[$value][$view] : 'Unknown';
+    }
+
