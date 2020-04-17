@@ -9,7 +9,7 @@
 
         $user = $_SESSION['username'];
         $conn = is_sqlConn();
-        $stmt = sqlsrv_query($conn,"SELECT top 10 Name,cLevel,class,Resets,grandreset,Strength,Dexterity,Vitality,Energy,Leadership from Character where AccountID='$user'");
+        $stmt = sqlsrv_query($conn,"SELECT TOP 20 Name,cLevel,class,Resets,grandreset,Strength,Dexterity,Vitality,Energy,Leadership from Character where AccountID=?",$params = array($user));
 
           if($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC) == 0)
           {
@@ -19,7 +19,7 @@
           {
          for($i=0; $i < $row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC); ++$i)
          {
-             $check = count_rows2("Select * from GuildMember where Name='$row[0]'");
+             $check = count_rows2("Select * from GuildMember where Name=?", $a = array($row[0]));
 
              if($check['G_Name'] == NULL) { $check['G_Name'] = "None";}
              if ($row[2] == 0) { $row[2] = "Dark Wizard"; $img = "<img src=\"images/class/wizards.png\" />"; $cmd = "None"; }
@@ -38,7 +38,7 @@
              if ($row[2] == 50) { $row[2] = "Duel Master"; $img = "<img src=\"images/class/gladiators.png\" />"; $cmd = "None"; }
              if ($row[2] == 64) { $row[2] = "Dark Lord"; $img = "<img src=\"images/class/lords.png\" />"; $cmd = $row[9];  }
              if ($row[2] == 65) { $row[2] = "Lord Emperor"; $img = "<img src=\"images/class/lords.png\" />"; $cmd = $row[9];  }
-             if ($row[2] == 66) { $row[2] = "Lord Emperor"; $img = "<img src=\"images/class/lords.png\" />";  $cmd = "None";  }
+             if ($row[2] == 66) { $row[2] = "Lord Emperor"; $img = "<img src=\"images/class/lords.png\" />";  $cmd = $row[9];  }
              if ($row[2] == 80) { $row[2] = "Summoner"; $img = "<img src=\"images/class/sum.png\" />";  $cmd = "None"; }
              if ($row[2] == 81) { $row[2] = "Bloody Summoner"; $img = "<img src=\"images/class/sum.png\" />"; $cmd = "None";  }
              if ($row[2] == 82) { $row[2] = "Dimension Master"; $img = "<img src=\"images/class/sum.png\" />"; $cmd = "None";  }

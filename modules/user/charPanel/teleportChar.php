@@ -34,6 +34,8 @@
                     </div>
                     <input type="button" class="submit" onclick ='functions("teleportChar")' value="Teleport Character"><br>
                     <div align="center" id="teleportChars"></td></div>
+
+            <?php   echo json_encode($location);        ?>
     </div>
     </fieldset>
     </div>
