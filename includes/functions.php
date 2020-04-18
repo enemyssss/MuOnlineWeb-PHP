@@ -231,3 +231,22 @@ function char_class($value, $view=0)
     return isset($class[$value][$view]) ? $class[$value][$view] : 'Unknown';
 }
 
+#================================
+# Crypt Function
+# $value = what to crypt
+# $id = witch option in the switch
+#================================
+function cryptValue($value,$id)
+{
+    switch ($id)
+    {
+        case "password":
+            $cryptedPass = crypt($value,"saltPasS");
+            return $cryptedPass;
+            break;
+        case "email":
+            $cryptedEmail = crypt($value,"salteMail");
+            return $cryptedEmail;
+            break;
+    }
+}

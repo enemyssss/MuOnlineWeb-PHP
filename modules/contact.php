@@ -1,5 +1,5 @@
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-<form id="contact" method="POST">
+<form id="newsModule" method="POST">
 <div id ="menu">
     <h1 class="fontawesome-lock">Contact Us</h1>
     <fieldset>

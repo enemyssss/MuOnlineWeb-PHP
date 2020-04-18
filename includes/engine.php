@@ -18,7 +18,6 @@ switch ($id) {
     case 'login':
         $account = sqlsrv_escape_string(filter_input(INPUT_POST, "account", FILTER_SANITIZE_SPECIAL_CHARS));
         $userpass = sqlsrv_escape_string(filter_input(INPUT_POST, "userpass", FILTER_SANITIZE_SPECIAL_CHARS));
-        $cryptPass = crypt($userpass,"saltPasS");
 
         if(empty($account) || empty($userpass)){echo 'Empty fields!';}
         elseif(isset($account) && isset($userpass) && !empty($account) && !empty($userpass)){
@@ -26,7 +25,7 @@ switch ($id) {
             //SQL Injection Security ->
             if($query > 0){
                 $requery = count_rows2("SELECT * FROM MEMB_INFO WHERE memb___id=?",$a = array($account));
-                if($requery['memb__pwd'] === $cryptPass){
+                if($requery['memb__pwd'] === cryptValue($userpass,"password")){
                     $_SESSION['username'] = $account;
                     echo "<script type=\"text/javascript\">location.reload(true);</script>";
                 }
@@ -67,10 +66,8 @@ switch ($id) {
         // elseif(isset($reCaptcha) && !empty($reCaptcha)) {}
         //elseif (!$reCaptcha['success']) { echo "<p>Please go back and make sure you check the security CAPTCHA box.</p><br>";}
         else{
-            $cryptPass = crypt($password,"saltPasS");
-            $cryptEmail= crypt($email,"salteMail");
             $sql = "INSERT INTO MEMB_INFO (memb___id,memb__pwd,memb_name,sno__numb,mail_addr,appl_days,modi_days,out__days,true_days,mail_chek,bloc_code,ctl1_code,fpas_ques,fpas_answ,IP) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-            $params= array($username,$cryptPass,$username,1,$cryptEmail,0,0,0,0,1,0,0,$secretquest,$secretanswer);
+            $params= array($username,cryptValue($password,"password"),$username,1,cryptValue($email,"email"),0,0,0,0,1,0,0,$secretquest,$secretanswer);
             $sqlB = "INSERT INTO VI_CURR_INFO (ends_days,chek_code,used_time,memb___id,memb_name,memb_guid,sno__numb,Bill_Section,Bill_value,Bill_Hour,Surplus_Point,Surplus_Minute,Increase_Days ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
             $paramsB = array(date("Y"),1,1234,$username,$username,1,7,6,3,6,6,0,0);
             $stmt =  sqlsrv_query($conn,$sql,$params);
