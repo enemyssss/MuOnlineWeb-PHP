@@ -124,7 +124,7 @@ p{
     border-spacing: 2px;
     border: 1px solid black;
     background:rgba(0,0,0,0.2);
-    padding: 0 auto;
+    padding: 1%;
     text-align: center;
     margin: 0 auto;
 }
@@ -188,6 +188,7 @@ input[type="button"]{
    box-shadow: 0 8px 6px -6px rgba(0,0,0,0.7);
    border-top:1px solid rgba(255,255,255,0.8)!important;
   -webkit-box-reflect: below 0 -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(50%, transparent), to(rgba(255,255,255,0.2)));
+    margin-top: 2px;
 }
 
 input:focus{
@@ -236,6 +237,7 @@ textarea{
     width:90%;
     background:#616161;
     border:1px solid #000;
+    margin-bottom: 2px;
 }
 
 textarea::placeholder{

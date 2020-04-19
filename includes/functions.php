@@ -54,7 +54,7 @@ function check_numeric_alpha($array){
     if (is_array($array)){
         foreach ($array as $values){
             if(!preg_match("/^[a-zA-Z0-9\-\_]*$/",$values)){
-                echo "You have unhallowed characters in field!";
+                return 1;
             }
         }
     }
@@ -124,7 +124,7 @@ function post_captcha($user_response) {
 }
 
 #================================
-# Sesson Check Function
+# Session Check Function
 #================================
 function check_session(){
     session_start();
@@ -155,7 +155,7 @@ function checkAdmin($account)
 {
     require('config.php');
     $conn = is_sqlConn();
-    $stmt = sqlsrv_query($conn,"SELECT administrator from MEMB_INFO WHERE memb___id='$account'");
+    $stmt = sqlsrv_query($conn,"SELECT administrator from MEMB_INFO WHERE memb___id=?",$params = array($account));
     while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_NUMERIC))
         return $row[0];
 }

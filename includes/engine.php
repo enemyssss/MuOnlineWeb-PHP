@@ -24,6 +24,7 @@ switch ($id) {
         $userpass = sqlsrv_escape_string(filter_input(INPUT_POST, "userpass", FILTER_SANITIZE_SPECIAL_CHARS));
 
         if(empty($account) || empty($userpass)) { echo 'Empty fields!'; }
+        elseif (check_numeric_alpha(array($account,$userpass)) == 1) { echo "You have unhallowed characters in field!"; }
         elseif(isset($account) && isset($userpass) && !empty($account) && !empty($userpass)){
             $query = count_rows("SELECT Count (*) as count FROM MEMB_INFO WHERE memb___id=?",$a = array($account));
             //SQL Injection Security ->
@@ -66,7 +67,7 @@ switch ($id) {
         elseif ($repassword != $password) { echo "The passwords are not equal!"; }
         elseif ($secretanswer == $secretquest) { echo "The secret answer cant be the same value as the secret question!"; }
         elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)){ echo "Please,insert email adress!"; }
-        elseif (check_numeric_alpha(array($username,$password,$repassword,$secretquest,$secretanswer))){ }
+        elseif (check_numeric_alpha(array($username,$password,$repassword,$secretquest,$secretanswer)) == 1) { echo "You have unhallowed characters in field!" ;}
         // elseif(isset($reCaptcha) && !empty($reCaptcha)) {}
         //elseif (!$reCaptcha['success']) { echo "<p>Please go back and make sure you check the security CAPTCHA box.</p><br>";}
         else{
@@ -244,6 +245,7 @@ switch ($id) {
 
         if (empty($charPost)) { echo "Please, select character!"; }
         elseif(empty($cityPost)) { echo "Please, select location!"; }
+        elseif	(checkAccountCharacter($_SESSION['username'],$charPost)){ writeText('information/hackers.txt','Account:"'.$checkStatus['memb___id'].'",IP:"'.$checkStatus['IP'].'", Date:"'.date("Y/m/d").'" , Module:"Teleport Character"');}
         elseif(!in_array($cityPost, range(0, count($ModTeleportConf) - 1))) { echo "Please do not edit the form fields!"; }
         elseif (isAccoutOnline($_SESSION['username']) > 0 ) { echo "Your character is online!"; }
         elseif ($ModTeleportConf[$cityPost][3] < $ModTeleportConf[$cityPost][2]) {
@@ -275,6 +277,7 @@ switch ($id) {
             {
                 case "nm":
                     if ($check['Money'] < $clearSkillsMoney) { echo " You dont have enought money to clear your skills!"; }
+                    elseif	(checkAccountCharacter($_SESSION['username'],$charPost)){ writeText('information/hackers.txt','Account:"'.$checkStatus['memb___id'].'",IP:"'.$checkStatus['IP'].'", Date:"'.date("Y/m/d").'" , Module:"Clear Skills"');}
                     else{
                         $sql = "Update Character set MagicList=CONVERT(varbinary(180), null), Money=? where Name=?";
                         $params= array($check['Money'] - $clearSkillsMoney,$charPost);
@@ -292,6 +295,7 @@ switch ($id) {
 
                 case "sk":
                     if ($check['Money'] < $clearSkillTreeMoney) { echo " You dont have enought money to clear your Skill Tree!"; }
+                    elseif	(checkAccountCharacter($_SESSION['username'],$charPost)){ writeText('information/hackers.txt','Account:"'.$checkStatus['memb___id'].'",IP:"'.$checkStatus['IP'].'", Date:"'.date("Y/m/d").'" , Module:"Clear Skill Tree"');}
                     else {
                         $sql = "Update MasterSkillTree set MasterSkill = CAST('0' AS VARBINARY) where Name=?";
                         $params = array($charPost);
@@ -307,6 +311,7 @@ switch ($id) {
 
                 case "inv":
                     if ($check['Money'] < $clearInvMoney) { echo " You dont have enought money to clear your inventory!"; }
+                    elseif	(checkAccountCharacter($_SESSION['username'],$charPost)){ writeText('information/hackers.txt','Account:"'.$checkStatus['memb___id'].'",IP:"'.$checkStatus['IP'].'", Date:"'.date("Y/m/d").'" , Module:"Clear Inventory"');}
                     else {
                         $sql = "Update Character set Inventory=CONVERT(varbinary(1728), null), Money=? where Name=?";
                         $params = array($check['Money'] - $clearInvMoney,$charPost);
@@ -322,6 +327,7 @@ switch ($id) {
 
                 case "pk":
                     if ($check['Money'] < $clearPKMoney) { echo " You dont have enought money to clear your PK!"; }
+                    elseif	(checkAccountCharacter($_SESSION['username'],$charPost)){ writeText('information/hackers.txt','Account:"'.$checkStatus['memb___id'].'",IP:"'.$checkStatus['IP'].'", Date:"'.date("Y/m/d").'" , Module:"Clear PK"');}
                     else {
                         $sql = "Update Character set PkLevel=? ,PkTime=?, Money=? where Name=?";
                         $params = array(2, 0,$check['Money'] - $clearPKMoney, $charPost);
@@ -337,6 +343,35 @@ switch ($id) {
             }
         }
         break;
+        break;
+
+    #############################################################################################################################
+    // Admin Panel
+    #############################################################################################################################
+
+    // Add News Module
+    case "addNews":
+    $author = filter_input(INPUT_POST, "author", FILTER_SANITIZE_SPECIAL_CHARS);
+    $title = filter_input(INPUT_POST, "title", FILTER_SANITIZE_SPECIAL_CHARS);
+    $content = filter_input(INPUT_POST, "content", FILTER_SANITIZE_SPECIAL_CHARS);
+    $checkStatus = count_rows2("Select * from Memb_Stat where memb___id=?",$a = array($_SESSION['username']));
+
+    if (in_array(null,array($author,$title,$content))) { echo "Empty fields!"; }
+    elseif(checkAdmin($_SESSION['username']) == 0 ) {
+        writeText('information/hackers.txt','Account:"'.$checkStatus['memb___id'].'",IP:"'.$checkStatus['IP'].'", Date:"'.date("Y/m/d").'" , Module:"Admin Panel - Add News"');
+    }
+    else{
+        $sql = "INSERT INTO news (date,subject,author,[content]) VALUES (?,?,?,?)";
+        $params = array(time(),base64_encode($title),base64_encode($author),base64_encode($content));
+        $query = sqlsrv_query($conn,$sql,$params);
+        if ($query)
+        echo "News Added!";
+        else
+            echo "Error in statement execution.\n";
+        die(print_r(sqlsrv_errors(), true));
+        sqlsrv_close($conn);
+    }
+
         break;
 }
 

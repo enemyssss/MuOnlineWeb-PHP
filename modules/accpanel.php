@@ -15,7 +15,7 @@ if(isset($_SESSION['username'])){
                  <div class="nav-container">
               <ul class="nav">
                   <li>
-                  <a onclick =\'web("modules/user/adminPanel/adminPanel.php")\'>
+                  <a onclick =\'web("modules/user/adminPanel/addNews.php")\'>
                     <span class="icon"><i class="fa fa-address-card"></i></span>
                     <span class="text">Admin Panel</span>
                   </a>

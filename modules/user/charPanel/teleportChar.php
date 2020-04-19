@@ -23,8 +23,7 @@
                         <select name="city" >
                             <option selected disabled>Choose an City</option>
                             <?php
-
-                            foreach($location as $key => $values){
+                            foreach($ModTeleportConf as $key => $values){
                                 echo "<option value='".$key."'>".$values[0]."</option>";
                             }
 
@@ -35,7 +34,6 @@
                     <input type="button" class="submit" onclick ='functions("teleportChar")' value="Teleport Character"><br>
                     <div align="center" id="teleportChars"></td></div>
 
-            <?php   echo json_encode($location);        ?>
     </div>
     </fieldset>
     </div>

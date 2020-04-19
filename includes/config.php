@@ -4,14 +4,11 @@ $serverName = "enemY"; //serverName\instanceName
 $connectionInfo = array("Database"=>"MuOnline", "UID"=>"sa", "PWD"=>"123456");
 
 //Server Info
-
-$server="Mu Online Server Name"; // Name of your server
-$serverVer="99b"; // Server Version
-$serverExpDrop="500x/60%"; // Server Exp
-$serverIp="127.0.0.1"; // Server Ip Adress
-$serverPort="44405"; // Server Port
-
-
+$server = "Mu Online Server Name"; // Name of your server
+$serverVer = "99b"; // Server Version
+$serverExpDrop = "500x/60%"; // Server Exp
+$serverIp = "127.0.0.1"; // Server Ip Adress
+$serverPort = "44405"; // Server Port
 
 //Download Client Info
 $clientName = "Test"; // Insert client Name
@@ -26,6 +23,7 @@ $clearStats = 1; // 0 - OFF / 1 - ON
 $levelUpPoints = 0; // Set LevelUpPoints when $clearStats = 1
 $maxResets = 999;
 
+// Clear Module Config
 $clearSkillsMoney = 5000000;
 $clearSkillTreeMoney = 500000;
 $clearInvMoney = 50000;
